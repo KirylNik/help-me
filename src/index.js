@@ -1,32 +1,22 @@
 module.exports = function count(s, pairs) {
     let n = arrayCounting(pairs);
-    let accumulatorK = [];
+    let accumulatorJ0 = [];
+    let accumulatorJ1 = [];
     bitMaskHandler(s);
-    let simpleNumbersK = [];
-    siftSimpleNumber(accumulatorK);
-    return (simpleNumbersK.length);
+    let matchingElem = [];
+    matchingElem = matchingElements(accumulatorJ1, accumulatorJ0);
+    return((matchingElem.length) %  1000000007);
 
 
-    // Оставляет только простые числа.
-    function siftSimpleNumber(arr) {
-        for (var i = 0; i < arr.length; i++) {
-            let delitel = arr[i];
-            let flagDeleniya = 0;
-            while (flagDeleniya < 2) {
-                if (arr[i]%delitel == 0) {
-                    flagDeleniya++;
-                    delitel--;
-                } else {
-                    delitel--;
-                }
-                if (delitel == 0 && flagDeleniya == 2) {
-                    simpleNumbersK.push(arr[i]);
-                    break;
-                } else if (delitel == 0 && flagDeleniya != 2) {
-                    break;
-                }
+
+    function matchingElements(accumulatorJ1, accumulatorJ0) {
+        let arrayTemp = []
+        for (let i = 0; i < accumulatorJ0.length; i++) {
+            if (accumulatorJ1.indexOf(accumulatorJ0[i]) != -1) {
+                arrayTemp.push(accumulatorJ0[i]);
             }
-        };
+        }
+        return (arrayTemp);
     };
     // Выполняет основное условие: возвращает колличество чисел K, соответствующих обоим условиям для всех s[j].
     function bitMaskHandler(s) {
@@ -34,8 +24,8 @@ module.exports = function count(s, pairs) {
             if (s[j] == 0) {
                 for (let k = 1; k <= n; k++) {
                     let temp = nod(k+j, n);
-                    if (temp != 1 && (accumulatorK.indexOf(k) == -1)) {
-                        accumulatorK.push(k)
+                    if (temp != 1 && (accumulatorJ0.indexOf(k) == -1)) {
+                        accumulatorJ0.push(k);
                     }
                     else {
                         continue;
@@ -45,14 +35,14 @@ module.exports = function count(s, pairs) {
             else if (s[j] == 1) {
                 for (let k = 0; k <= n; k++) {
                     let temp = nod(k+j, n);
-                    if (temp == 1 && (accumulatorK.indexOf(k) == -1)) {
-                        accumulatorK.push(k)
+                    if (temp == 1 && (accumulatorJ1.indexOf(k) == -1)) {
+                        accumulatorJ1.push(k);
                     }
                     else {
                         continue;
                     };
-                }
-            }
+                };
+            };
         };
     };
     // Находит наибольший общий делитель.
@@ -77,5 +67,4 @@ module.exports = function count(s, pairs) {
         };
         return (nTemp);
     };
-
 };
