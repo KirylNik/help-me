@@ -10,7 +10,7 @@ describe('Help me', () => {
   });
 
   it('1', () => {
-    const result = count('01', [[3, 2], [5, 1]]); == 45 k = [0,1,2,3....45] n =45
+    const result = count('01', [[3, 2], [5, 1]]);
     assert.equal(result, 15);
   });
 
