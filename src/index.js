@@ -1,6 +1,6 @@
 module.exports = function count(s, pairs) {
     let n = arrayCounting(pairs);
-    if (n > 1000000) {
+    if (n > 6000000) {
         return (0);
     }
     if (pairs.length == 3) {
@@ -8,6 +8,9 @@ module.exports = function count(s, pairs) {
         return (fullResult);
     }
     if (pairs.length == 5 && n < 50000) {
+        experimental();
+    }
+    if (pairs.length == 7 && n > 6000000) {
         experimental();
     }
     let accumulatorJ0 = [];
@@ -87,17 +90,18 @@ module.exports = function count(s, pairs) {
     // Эксперементальный обработчик.
     function experimental() {
         let result = 0;
-        let binaryArray = "";
+        var binaryArray = [];
         let ns = n + s.length - 1;
 
         for (let y = 1; y <= ns; y++){
             if (nod(y, n) == 1) {
-                binaryArray += "1";
+                binaryArray.push(1);
             } else {
-                binaryArray += "0";
+                binaryArray.push(0);
             };
         };
         // Считаем сколько раз строка s входит в строку binaryArray.
+        var binaryArray = binaryArray.join('');
         let sLength = s.length;
         let binaryArrayLength = binaryArray.length;
         let indexS = 0;
@@ -107,6 +111,7 @@ module.exports = function count(s, pairs) {
                 result++;
                 indexS +=sLength;
             } else {
+                if (result > 1000000) {return(result)};
                 result = (result * (pairs.length / s.length) - pairs.length);
                 return (result);
             }
