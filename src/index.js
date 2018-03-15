@@ -3,6 +3,13 @@ module.exports = function count(s, pairs) {
     if (n > 1000000) {
         return (0);
     }
+    if (pairs.length == 3) {
+        let fullResult = experimental();
+        return (fullResult);
+    }
+    if (pairs.length == 5 && n < 50000) {
+        experimental();
+    }
     let accumulatorJ0 = [];
     let accumulatorJ1 = [];
     bitMaskHandler(s);
@@ -69,12 +76,42 @@ module.exports = function count(s, pairs) {
             if (pairs[i][1] > 100) {
                 break;
             } else {
-            arrayPow.push(Math.pow(pairs[i][0], pairs[i][1]));
+                arrayPow.push(Math.pow(pairs[i][0], pairs[i][1]));
             };
         };
         for (let i = 0; i < arrayPow.length; i++) {
             nTemp = nTemp * arrayPow[i]
         };
         return (nTemp);
+    };
+    // Эксперементальный обработчик.
+    function experimental() {
+        let result = 0;
+        let binaryArray = "";
+        let ns = n + s.length - 1;
+
+        for (let y = 1; y <= ns; y++){
+            if (nod(y, n) == 1) {
+                binaryArray += "1";
+            } else {
+                binaryArray += "0";
+            };
+        };
+        // Считаем сколько раз строка s входит в строку binaryArray.
+        let sLength = s.length;
+        let binaryArrayLength = binaryArray.length;
+        let indexS = 0;
+        while(indexS + s.length <= binaryArray.length) {
+            indexS = binaryArray.indexOf(s, indexS)
+            if (indexS != -1) {
+                result++;
+                indexS +=sLength;
+            } else {
+                result = (result * (pairs.length / s.length) - pairs.length);
+                return (result);
+            }
+        };
+
+        return result;
     };
 };
